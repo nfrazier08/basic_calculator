@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function(){
             const action = e.target.dataset.action;
             
             if(
-
                 action === 'add' || //OR
                 action === 'subtract' ||
                 action === 'multiply' ||
@@ -36,28 +35,20 @@ document.addEventListener('DOMContentLoaded', function(){
                         
             if(action === 'clear'){
                 console.log(action);
+            };        
+
+            if(action === 'decimal'){
+                console.log(action);
+            };                 
+
+            if(!action) {
+                console.log('This is a number');   
+                console.log(keys.textContent)  //textContent: Get the text content of an element (https://www.w3schools.com/jsref/prop_node_textcontent.asp)
             };
-
-                                
-
-                                 if(action === 'decimal'){
-
-                                                console.log(action);
-
-                                 };
-
-                  
-
-                                 if(!action) {
-
-                                                console.log('This is a number');
-
-                                               
-
-                                 };
-
-                  }                                         
-
+        }             
+        
+        //Next we need to get the value of the number inserted (done with text content) and get the value of the display number.
+        //If the display number is 0, the number pressed needs to replace it and if the display number is not 0, the next number pressed needs to be appended to the first number
     });
 
    
