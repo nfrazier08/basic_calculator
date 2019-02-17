@@ -67,6 +67,9 @@ document.addEventListener('DOMContentLoaded', function(){
                    console.log("Listening RIGHT HERE!")
                    display.textContent = keyTextContent;
                 }
+                else {
+                    display.textContent = keyTextContent + displayedNumber;
+                }
             } 
         }  //End of if statemnet for e.target.matches function 
 });
