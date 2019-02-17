@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
     //We need to get the keys, which are child elements of calculator keys
     const calculator = document.querySelector('.calculator');
-    const keys = calculator.querySelector('.calculator_keys');                  
+    const keys = calculator.querySelector('.calculator_keys');   
+    const display = calculator.querySelector('.display');       
+    console.log("display is here...")
+    console.log(display);      
 
     //We need to listen for when a button is clicked
     keys.addEventListener('click', e => {
@@ -18,7 +21,17 @@ document.addEventListener('DOMContentLoaded', function(){
             //Either it is an action key or a number key
 
             const keys = e.target;
+            //Here we are getting the action of the button set in the data-action of the HTML
             const action = e.target.dataset.action;
+
+            //The number of the button that is pressed 
+            const keyTextContent = keys.textContent;
+
+            //Let's get the display number from HTML
+            const displayedNumber = display.textContent;
+            console.log(displayedNumber) //This is printing 0 at this point 
+           
+            
             
             if(
                 action === 'add' || //OR
@@ -42,14 +55,21 @@ document.addEventListener('DOMContentLoaded', function(){
             };                 
 
             if(!action) {
-                console.log('This is a number');   
+                console.log('This is a number');  
+                //Here: we are getting the number that is clicked 
                 console.log(keys.textContent)  //textContent: Get the text content of an element (https://www.w3schools.com/jsref/prop_node_textcontent.asp)
             };
-        }             
-        
-        //Next we need to get the value of the number inserted (done with text content) and get the value of the display number.
-        //If the display number is 0, the number pressed needs to replace it and if the display number is not 0, the next number pressed needs to be appended to the first number
-    });
+
+            //If the display number is 0, the number pressed needs to replace it            
+            if (!action) {
+                if (displayedNumber === '0'){
+                   // displayedNumber.textContent = numberPressed;
+                   console.log("Listening RIGHT HERE!")
+                   display.textContent = keyTextContent;
+                }
+            } 
+        }  //End of if statemnet for e.target.matches function 
+});
 
    
 
