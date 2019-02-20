@@ -35,13 +35,7 @@ document.addEventListener('DOMContentLoaded', function(){
             const displayedNumber = display.textContent;
             //console.log(displayedNumber) //This is printing 0 at this point 
 
-            //Remove selected class 
-                //Remove the selected class from all keys with for loop
-                //In the console, key is: <button data-action="subtract" class="selected">...</button>
-                //
-            
-            
-                       
+                                
             if(
                 action === 'add' || //OR
                 action === 'subtract' ||
@@ -49,7 +43,13 @@ document.addEventListener('DOMContentLoaded', function(){
                 action === 'divide'
             ){
                 //I want to add a class to show the user that they have clicked an operator key
-                key.classList.add("selected");                
+                key.classList.add("selected");   
+                //Update the diplay to the clicked key, but we need to determine if the previous key is an operator
+                //Will add custom attribute here to operator keys
+                //I am not sure why we are using calculator here; but I will try with key and see what the results are
+                //When I use 'key' here, the number pressed after the operator is appended to the number already in the display
+                //When I change to calculator, the number in the display is replaced as we are looking to do 
+                calculator.dataset.previousKeyType = 'operator';   
             }
             
             if(action === 'calculate'){
@@ -70,9 +70,15 @@ document.addEventListener('DOMContentLoaded', function(){
                 console.log(keys.textContent)  //textContent: Get the text content of an element (https://www.w3schools.com/jsref/prop_node_textcontent.asp)
             };
 
+            //When using this, the number simply appends to the number already in the display
+            //It wasn't until I used 'calculator.dataset.previousKeyType = 'operator' did the numbers stop
+            //appending to the current # in the display and replace the number as expected
+            //const previousKeyType = key.dataset.previousKeyType;
+            const previousKeyType = calculator.dataset.previousKeyType;
+
             //If the display number is 0, the number pressed needs to replace it            
             if (!action) {
-                if (displayedNumber === '0'){
+                if (displayedNumber === '0' || previousKeyType === 'operator'){
                    // displayedNumber.textContent = numberPressed;
                    console.log("Listening RIGHT HERE!")
                    display.textContent = keyTextContent;
@@ -88,7 +94,13 @@ document.addEventListener('DOMContentLoaded', function(){
                 display.textContent = displayedNumber + '.'
             }
 
-             
+            //Remove selected class 
+                //Remove the selected class from all keys with for loop
+                //In the console, key is: <button data-action="subtract" class="selected">...</button>
+                //Use Array.from(), since the keys are not really an array. We are creating an array
+                //The parent here is calculator_keys and all the children are the buttons
+                Array.from(key.parentNode.children)
+                    .forEach(k => k.classList.remove('selected'))
 
 
         }  //End of if statemnet for e.target.matches function 
