@@ -50,10 +50,49 @@ document.addEventListener('DOMContentLoaded', function(){
                 //When I use 'key' here, the number pressed after the operator is appended to the number already in the display
                 //When I change to calculator, the number in the display is replaced as we are looking to do 
                 calculator.dataset.previousKeyType = 'operator';   
+
+                //We need to do two things:
+                //1) store first value entered in custom attribute
+                //2) store the operator entered in custom attribute
+
+                calculator.dataset.firstNum = displayedNumber;
+                calculator.dataset.operation = action;
+                
             }
             
             if(action === 'calculate'){
                 console.log(action)
+                //We will get the second value entered here and save it in a variable
+                const secondNumber = displayedNumber;
+                console.log("below is second number...")
+                console.log(secondNumber);
+
+                //Repeat for first number entered
+                const firstNumber = calculator.dataset.firstNum;
+
+                //Repeat for operator
+                const operator = calculator.dataset.operation
+
+                //Calculate function that takes three parameters(firstNumber, operator, secondNumber)
+                const calculate = (n1, operator, n2) => {
+                    let result = '';
+
+                    if (operator === 'add'){
+                        result = parseFloat(n1) + parseFloat(n2)
+                    } else if (operator === 'subtract'){
+                        result = parseFloat(n1) - parseFloat(n2)
+                    } else if (operator === 'multiply'){
+                        result = parseFloat(n1) *+ parseFloat(n2)
+                    } else if (operator === 'divide'){
+                        result = parseFloat(n1) / parseFloat(n2)
+                    }
+                    
+                    return result;
+                }
+
+                display.textContent = calculate(firstNumber, operator, secondNumber);
+
+
             };
                         
             if(action === 'clear'){
@@ -102,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 Array.from(key.parentNode.children)
                     .forEach(k => k.classList.remove('selected'))
 
+          
 
         }  //End of if statemnet for e.target.matches function 
 });
