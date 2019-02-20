@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const keys = calculator.querySelector('.calculator_keys');   
     const display = calculator.querySelector('.display');       
     console.log("display is here...")
-    console.log(display);      
+    //console.log(display);      
 
     //We need to listen for when a button is clicked
     keys.addEventListener('click', e => {
@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function(){
             const key = e.target;
             console.log("below is the key")
             console.log(key)
+            console.log("below is the array.from(key)")
             console.log(Array.from(key))
             //Here we are getting the action of the button set in the data-action of the HTML
             const action = key.dataset.action;
@@ -34,9 +35,12 @@ document.addEventListener('DOMContentLoaded', function(){
             const displayedNumber = display.textContent;
             //console.log(displayedNumber) //This is printing 0 at this point 
 
-            //Remove selectedOperator class 
-                //I want to loop through 
-                //keys.parentNode.children
+            //Remove selected class 
+                //Remove the selected class from all keys with for loop
+                //In the console, key is: <button data-action="subtract" class="selected">...</button>
+                //
+            
+            
                        
             if(
                 action === 'add' || //OR
@@ -45,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 action === 'divide'
             ){
                 //I want to add a class to show the user that they have clicked an operator key
-                key.classList.add("selectedOperator");                
+                key.classList.add("selected");                
             }
             
             if(action === 'calculate'){
