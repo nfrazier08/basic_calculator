@@ -20,26 +20,32 @@ document.addEventListener('DOMContentLoaded', function(){
             //Here we are getting the value of the key pressed
             //Either it is an action key or a number key
 
-            const keys = e.target;
+            const key = e.target;
+            console.log("below is the key")
+            console.log(key)
+            console.log(Array.from(key))
             //Here we are getting the action of the button set in the data-action of the HTML
-            const action = e.target.dataset.action;
+            const action = key.dataset.action;
 
             //The number of the button that is pressed 
-            const keyTextContent = keys.textContent;
+            const keyTextContent = key.textContent;
 
             //Let's get the display number from HTML
             const displayedNumber = display.textContent;
-            console.log(displayedNumber) //This is printing 0 at this point 
-           
-            
-            
+            //console.log(displayedNumber) //This is printing 0 at this point 
+
+            //Remove selectedOperator class 
+                //I want to loop through 
+                //keys.parentNode.children
+                       
             if(
                 action === 'add' || //OR
                 action === 'subtract' ||
                 action === 'multiply' ||
                 action === 'divide'
             ){
-                console.log(action);
+                //I want to add a class to show the user that they have clicked an operator key
+                key.classList.add("selectedOperator");                
             }
             
             if(action === 'calculate'){
@@ -67,10 +73,20 @@ document.addEventListener('DOMContentLoaded', function(){
                    console.log("Listening RIGHT HERE!")
                    display.textContent = keyTextContent;
                 }
+                //Otherwise, if another number is pressed, it needs to be appended to the display number
                 else {
-                    display.textContent = keyTextContent + displayedNumber;
+                    display.textContent = displayedNumber + keyTextContent;
                 }
             } 
+
+            //if a decimal is pressed it also needs to be added to the display
+            if(action === 'decimal'){
+                display.textContent = displayedNumber + '.'
+            }
+
+             
+
+
         }  //End of if statemnet for e.target.matches function 
 });
 

@@ -11,3 +11,7 @@
     grid-column-start:4;     
 }
 
+.selectedOperator{
+    transition: all 0.07s;
+    background-color: green;
+}
