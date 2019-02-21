@@ -58,16 +58,24 @@ document.addEventListener('DOMContentLoaded', function(){
                 action === 'divide'
             ){
                 //The whole point here is to be able to add/update the display for consecutive calculations
+                //We need to be able to acces these variables as soon as they exist
+                //Moved calculate up, to be accessible by all parts of code
                 const firstNumber = calculator.dataset.firstValue;
                 const operator = calculator.dataset.operation;
                 const secondNumber = displayedNumber;
 
-                //I want to add a class to show the user that they have clicked an operator key
-                key.classList.add("selected");   
-                
                 //Set custom attribute
                 calculator.dataset.previousKeyType = 'operator';   
 
+                //We only need to check for the first number and the operator to calculate for consecutive calculations
+                //If the previous key is an operator, then we do not call the calculate function
+                if (firstNumber && operator && previousKeyType !== 'operator') {
+                    display.textContent = calculate(firstNumber, operator, secondNumber);
+                }
+
+                //I want to add a class to show the user that they have clicked an operator key
+                key.classList.add("selected");   
+                
                 //We need to do two things:
                 //1) store first value entered in custom attribute
                 //2) store the operator entered in custom attribute
@@ -90,7 +98,9 @@ document.addEventListener('DOMContentLoaded', function(){
                 //Set custom attribute
                 calculator.dataset.previousKeyType = 'calculate';
 
-                display.textContent = calculate(firstNumber, operator, secondNumber);
+                if (firstNumber && operator && previousKeyType !== 'calculate') {
+                    display.textContent = calculate(firstNumber, operator, secondNumber);
+                }
             };
                         
             if(action === 'clear'){
