@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', function(){
             const displayedNumber = display.textContent;
             //console.log(displayedNumber) //This is printing 0 at this point 
 
+            //Setting custom attribute 'previous key type' to a variable
+            const previousKeyType = calculator.dataset.previousKeyType;
                                 
             if(
                 action === 'add' || //OR
@@ -49,6 +51,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 //I am not sure why we are using calculator here; but I will try with key and see what the results are
                 //When I use 'key' here, the number pressed after the operator is appended to the number already in the display
                 //When I change to calculator, the number in the display is replaced as we are looking to do 
+
+                //Set custom attribute
                 calculator.dataset.previousKeyType = 'operator';   
 
                 //We need to do two things:
@@ -56,8 +60,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 //2) store the operator entered in custom attribute
 
                 calculator.dataset.firstNum = displayedNumber;
-                calculator.dataset.operation = action;
-                
+                calculator.dataset.operation = action;                
             }
             
             if(action === 'calculate'){
@@ -72,6 +75,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 //Repeat for operator
                 const operator = calculator.dataset.operation
+
+                //Set custom attribute
+                calculator.dataset.previousKeyType = 'calculate';
 
                 //Calculate function that takes three parameters(firstNumber, operator, secondNumber)
                 const calculate = (n1, operator, n2) => {
@@ -91,33 +97,45 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
 
                 display.textContent = calculate(firstNumber, operator, secondNumber);
-
-
             };
                         
             if(action === 'clear'){
                 console.log(action);
+
+                //Set custom attribute
+                calculator.dataset.previousKeyType = 'clear';
             };        
 
             if(action === 'decimal'){
                 console.log(action);
+
+                //Set custom attribute
+                calculator.dataset.previousKeyType = 'decimal';
+
+                //If a decimal is pressed it also needs to be added to the current display
+                if(!displayedNumber.includes('.')){
+                    display.textContent = displayedNumber + '.'
+                } else if(previousKeyType === 'operator'){
+                    display.textContent = '0.';
+                }
             };                 
 
-            if(!action) {
-                console.log('This is a number');  
+            //if(!action) {
+                //console.log('This is a number');  
                 //Here: we are getting the number that is clicked 
-                console.log(keys.textContent)  //textContent: Get the text content of an element (https://www.w3schools.com/jsref/prop_node_textcontent.asp)
-            };
+                //console.log(keys.textContent)  //textContent: Get the text content of an element (https://www.w3schools.com/jsref/prop_node_textcontent.asp)
+            //};
 
             //When using this, the number simply appends to the number already in the display
             //It wasn't until I used 'calculator.dataset.previousKeyType = 'operator' did the numbers stop
             //appending to the current # in the display and replace the number as expected
             //const previousKeyType = key.dataset.previousKeyType;
-            const previousKeyType = calculator.dataset.previousKeyType;
+            //const previousKeyType = calculator.dataset.previousKeyType;
 
             //If the display number is 0, the number pressed needs to replace it            
             if (!action) {
                 if (displayedNumber === '0' || previousKeyType === 'operator'){
+                    console.log('This is a number');  
                    // displayedNumber.textContent = numberPressed;
                    console.log("Listening RIGHT HERE!")
                    display.textContent = keyTextContent;
@@ -129,9 +147,11 @@ document.addEventListener('DOMContentLoaded', function(){
             } 
 
             //if a decimal is pressed it also needs to be added to the display
-            if(action === 'decimal'){
-                display.textContent = displayedNumber + '.'
-            }
+            //if(action === 'decimal'){
+                //if(!displayedNumber.includes('.')){
+                    //display.textContent = displayedNumber + '.'
+                //}
+            //}
 
             //Remove selected class 
                 //Remove the selected class from all keys with for loop
@@ -139,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 //Use Array.from(), since the keys are not really an array. We are creating an array
                 //The parent here is calculator_keys and all the children are the buttons
                 Array.from(key.parentNode.children)
-                    .forEach(k => k.classList.remove('selected'))
+                    .forEach(k => k.classList.remove('selected'));
 
           
 
