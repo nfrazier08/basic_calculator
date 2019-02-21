@@ -57,6 +57,11 @@ document.addEventListener('DOMContentLoaded', function(){
                 action === 'multiply' ||
                 action === 'divide'
             ){
+                //The whole point here is to be able to add/update the display for consecutive calculations
+                const firstNumber = calculator.dataset.firstValue;
+                const operator = calculator.dataset.operation;
+                const secondNumber = displayedNumber;
+
                 //I want to add a class to show the user that they have clicked an operator key
                 key.classList.add("selected");   
                 
