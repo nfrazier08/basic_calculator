@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 //We only need to check for the first number and the operator to calculate for consecutive calculations
                 //If the previous key is an operator, then we do not call the calculate function
-                if (firstNumber && operator && previousKeyType !== 'operator') {
+                if (firstNumber && operator && previousKeyType !== 'operator' && previousKeyType === 'calculate') {
 
                     const calculatedValue = calculate(firstNumber, operator, secondNumber);
                     display.textContent = calculatedValue;
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 //If a decimal is pressed it also needs to be added to the current display
                 if(!displayedNumber.includes('.')){
                     display.textContent = displayedNumber + '.'
-                } else if (previousKeyType === 'operator'){
+                } else if (previousKeyType === 'operator' || previousKeyType === 'calculate'){
                     display.textContent = '0.';
                 }
 
@@ -148,21 +148,27 @@ document.addEventListener('DOMContentLoaded', function(){
             };                 
 
             //If the display number is 0, the number pressed needs to replace it            
+            //Also if decimal/number is clicked after calc, display should be 0
             if (!action) {
-                if (displayedNumber === '0' || previousKeyType === 'operator'){
+                if (displayedNumber === '0' || previousKeyType === 'operator' || previousKeyType === 'calculate'){
                     console.log('This is a number');  
                    // displayedNumber.textContent = numberPressed;                   
-                   display.textContent = keyTextContent;
-
-                   calculator.dataset.previousKey = 'number'
+                   display.textContent = keyTextContent;                   
                 }
                 //Otherwise, if another number is pressed, it needs to be appended to the display number
                 else {
                     display.textContent = displayedNumber + keyTextContent;
                 }
+                calculator.dataset.previousKeyType = 'number';
             } 
 
-          
+            if (action !== 'clear'){
+                const clearButton = calculator.querySelector('[data-action="clear"]');
+                //This works: https://gomakethings.com/javascript-selectors-in-html/
+                console.log(clearButton)
+
+                clearButton.textContent = 'CE';
+            }
             
 
                 
