@@ -70,7 +70,16 @@ document.addEventListener('DOMContentLoaded', function(){
                 //We only need to check for the first number and the operator to calculate for consecutive calculations
                 //If the previous key is an operator, then we do not call the calculate function
                 if (firstNumber && operator && previousKeyType !== 'operator') {
-                    display.textContent = calculate(firstNumber, operator, secondNumber);
+
+                    const calculatedValue = calculate(firstNumber, operator, secondNumber);
+                    display.textContent = calculatedValue;
+
+                    //STUDY THIS!!
+                    //firstNumber will now equal the updated calculated value; updating the custom data attribute firstNumber
+                    calculator.dataset.firstNumber = calculatedValue;                    
+                } else {
+                    //If no additional calculations need to take place the first number entered to the currently displayed number
+                    calculator.dataset.firstNumber = displayedNumber;
                 }
 
                 //I want to add a class to show the user that they have clicked an operator key
@@ -84,23 +93,35 @@ document.addEventListener('DOMContentLoaded', function(){
                 calculator.dataset.operation = action;                
             }
             
-            if(action === 'calculate'){
+            if (action === 'calculate'){
                 console.log(action)
                 //We will get the second value entered here and save it in a variable
-                const secondNumber = displayedNumber;
+                let secondNumber = displayedNumber
                 
                 //Repeat for first number entered
-                const firstNumber = calculator.dataset.firstValue;
+                let firstNumber = calculator.dataset.firstValue
 
                 //Repeat for operator
-                const operator = calculator.dataset.operation
+                const operator = calculator.dataset.operation;
+
+                if (firstNumber){
+                    if (previousKeyType === 'calculate'){
+                        firstNumber = displayedNumber
+                        secondNumber = calculator.dataset.carriedSecondNumber;
+                    }                
+                display.textContent = calculate(firstNumber, operator, secondNumber);
+                }
+
+                //if (firstNumber && operator && previousKeyType !== 'calculate') {
+                    //display.textContent = calculate(firstNumber, operator, secondNumber);
+                //}
+                
+                //We need to carry the second value over into a custom attribute
+                //Set custom attribute
+                calculator.dataset.carriedSecondNumber = secondNumber;
 
                 //Set custom attribute
                 calculator.dataset.previousKeyType = 'calculate';
-
-                if (firstNumber && operator && previousKeyType !== 'calculate') {
-                    display.textContent = calculate(firstNumber, operator, secondNumber);
-                }
             };
                         
             if(action === 'clear'){
