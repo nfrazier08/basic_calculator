@@ -61,38 +61,81 @@ document.addEventListener('DOMContentLoaded', function(){
 
             //Create Results String Function
             const createResultsString = () => {
+                //Variables Needed:
+                //keyTextContent
+                //displayedNum
+                //previousKeyType
+                //action
+                //firstNumber
+                //secondNumber
+                //operator
+                //calculator.dataset.previousKeyType = 'operator' -- setting custom attribute
+                //calculator.dataset.firstValue = displayedNumber;
+
+
+                //This is for Numbers, as there is no action here
                 if(!action) {
-                    if (
-                        isplayedNumber === '0' || 
+                   return 
+                        displayedNumber === '0' || 
                         previousKeyType === 'operator' || 
                         previousKeyType === 'calculate'
-                    ){
-                        return keyTextContent;
-                    } else {
-                        return displayedNumber + keyTextContent;
-                    }
-                }                  
+                    ? keyTextContent   
+                    : displayedNumber + keyTextContent                    
+                }  
+                
+                if(action === 'decimal'){
+                    if(!displayedNumber.includes('.'))
+                        return displayedNumber + '.'
+                    if (previousKeyType === 'operator' || previousKeyType === 'calculate')
+                        return '0.'
+                    //We need this because we are replacing display.textContent with value from createResultsString Fxn.
+                    //Without it, this fxn will return undefined
+                    return displayedNumber                    
+                }
+
+                if(
+                    action === 'add' ||
+                    action === 'subtract' ||
+                    action === 'multiply' ||
+                    action === 'divide'
+                ){
+                    const firstNumber = calculator.dataset.firstValue;
+                    const operator = calculator.dataset.operation;
+                    //const secondNumber = displayedNumber;
+
+                    return 
+                        firstNumber && 
+                        operator && 
+                        previousKeyType !== 'operator' && 
+                        previousKeyType !== 'calculate'
+                    
+                    ? calculate(firstNumber, operator, displayedNumber)
+                    : displayedNumber                    
+                }
+
+                if(action === 'clear') 
+                    return 0
             }
            
             //Release selected state
             Array.from(key.parentNode.children)
             .forEach(k => k.classList.remove('selected'));
                                 
-            if(
-                action === 'add' || //OR
-                action === 'subtract' ||
-                action === 'multiply' ||
-                action === 'divide'
-            ){
+            //if(
+                //action === 'add' || //OR
+                //action === 'subtract' ||
+                //action === 'multiply' ||
+                //action === 'divide'
+            //){
                 //The whole point here is to be able to add/update the display for consecutive calculations
                 //We need to be able to acces these variables as soon as they exist
                 //Moved calculate up, to be accessible by all parts of code
-                const firstNumber = calculator.dataset.firstValue;
-                const operator = calculator.dataset.operation;
-                const secondNumber = displayedNumber;
+                //const firstNumber = calculator.dataset.firstValue;
+                //const operator = calculator.dataset.operation;
+                //const secondNumber = displayedNumber;
 
                 //Set custom attribute
-                calculator.dataset.previousKeyType = 'operator';   
+                //calculator.dataset.previousKeyType = 'operator';   
 
                 //We only need to check for the first number and the operator to calculate for consecutive calculations
                 //If the previous key is an operator, then we do not call the calculate function
@@ -116,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 //1) store first value entered in custom attribute
                 //2) store the operator entered in custom attribute
 
-                calculator.dataset.firstValue = displayedNumber;
+                //calculator.dataset.firstValue = displayedNumber;
                 calculator.dataset.operation = action;                
             }
             
@@ -178,11 +221,11 @@ document.addEventListener('DOMContentLoaded', function(){
                 calculator.dataset.previousKey = 'decimal';
 
                 //If a decimal is pressed it also needs to be added to the current display
-                if(!displayedNumber.includes('.')){
-                    display.textContent = displayedNumber + '.'
-                } else if (previousKeyType === 'operator' || previousKeyType === 'calculate'){
-                    display.textContent = '0.';
-                }
+                //if(!displayedNumber.includes('.')){
+                    //display.textContent = displayedNumber + '.'
+                //} else if (previousKeyType === 'operator' || previousKeyType === 'calculate'){
+                    //display.textContent = '0.';
+                //}
 
                 calculator.dataset.previousKeyType = 'decimal'
             };                 
