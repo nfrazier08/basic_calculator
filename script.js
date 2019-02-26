@@ -87,21 +87,6 @@ document.addEventListener('DOMContentLoaded', function(){
                     return displayedNumber                    
                 }
 
-                if(keyType === 'operator')
-                {
-                    const firstNumber = calculator.dataset.firstValue;
-                    const operator = calculator.dataset.operation;
-                    
-                    return 
-                        firstNumber && 
-                        operator && 
-                        previousKeyType !== 'operator' && 
-                        previousKeyType !== 'calculate'
-                    
-                    ? calculate(firstNumber, operator, displayedNumber)
-                    : displayedNumber                    
-                }
-
                 if(keyType === 'clear') 
                     return 0
 
@@ -113,10 +98,44 @@ document.addEventListener('DOMContentLoaded', function(){
                     }
                 }
             }
+
+            const updateCalulatorState = (key, calculator) => {
+                const keyType = getKeyType(key)
+                calculator.dataset.previousKeyType = keyType
+
+                //if (keyType === 'number') { /* ... */ }
+                //if (keyType === 'decimal') { /* ... */ }
+                
+                if(keyType === 'operator') {
+                    key.classList.add("selected"); 
+
+                    calculator.dataset.operator = key.dataset.action
+                    calculator.dataset.firstNumber = key.dataset.firstNumber
+                                        
+                    return 
+                        firstNumber && 
+                        operator && 
+                        previousKeyType !== 'operator' && 
+                        previousKeyType !== 'calculate'
+                    
+                    ? calculate(firstNumber, operator, displayedNumber)
+                    : displayedNumber                    
+                }
+            }
+
+                //if (keyType === 'clear') { /* ... */ }
+                //if (keyType === 'calculate')
+
+                //Release selected state
+                Array.from(key.parentNode.children)
+                .forEach(k => k.classList.remove('selected'));
+
+                }
+            }
            
             //Release selected state
-            Array.from(key.parentNode.children)
-            .forEach(k => k.classList.remove('selected'));
+            //Array.from(key.parentNode.children)
+            //.forEach(k => k.classList.remove('selected'));
                                 
             //if(
                 //action === 'add' || //OR
