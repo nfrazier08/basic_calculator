@@ -7,18 +7,30 @@ document.addEventListener('DOMContentLoaded', function(){
     
     //Calculate function that takes three parameters(firstNumber, operator, secondNumber)
     const calculate = (n1, operator, n2) => {
-        let result = '';
+        //let result = '';
 
-        if (operator === 'add'){
-            result = parseFloat(n1) + parseFloat(n2)
-        } else if (operator === 'subtract'){
-            result = parseFloat(n1) - parseFloat(n2)
-        } else if (operator === 'multiply'){
-            result = parseFloat(n1) * parseFloat(n2)
-        } else if (operator === 'divide'){
-            result = parseFloat(n1) / parseFloat(n2)
-        }                
-        return result;
+        const firstInput = parseFloat(n1);
+        const secondInput = parseFloat(n2);
+
+        if(operator === 'add')
+            return firstInput + secondInput
+        if(operator === 'subtract')
+            return firstInput - secondInput
+        if(operator === 'multiply')
+            return firstInput * secondInput
+        if(operator === 'divide')
+            return firstInput / secondInput
+
+        //if (operator === 'add'){
+            //result = parseFloat(n1) + parseFloat(n2)
+        //} else if (operator === 'subtract'){
+           //result = parseFloat(n1) - parseFloat(n2)
+        //} else if (operator === 'multiply'){
+            //result = parseFloat(n1) * parseFloat(n2)
+        //} else if (operator === 'divide'){
+            //result = parseFloat(n1) / parseFloat(n2)
+        //}                
+        //return result;
     }
     
     //We need to listen for when a button is clicked
@@ -127,6 +139,19 @@ document.addEventListener('DOMContentLoaded', function(){
             if(action === 'clear'){
                 console.log(action);
 
+                //When selecting AC, we need to clear all custom attributes
+                //firstNumber, operator, second number, prevKey type
+                if (key.textContent === 'AC'){
+                    calculator.dataset.firstNumber = ''
+                    calculator.dataset.operation = ''
+                    calculator.dataset.carriedSecondNumber = ''
+                    calculator.dataset.previousKeyType = ''
+                } else {
+                    key.textContent = 'AC';
+                }
+
+                display.textContent = 0;                
+
                 //Set custom attribute
                 calculator.dataset.previousKeyType = 'clear';
             };        
@@ -162,6 +187,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 calculator.dataset.previousKeyType = 'number';
             } 
 
+            //AC- all clear- clears everything and resets the calc to initial state
+            //CE- clear entry - clears current entry. Keeps previous # in memory
             if (action !== 'clear'){
                 const clearButton = calculator.querySelector('[data-action="clear"]');
                 //This works: https://gomakethings.com/javascript-selectors-in-html/
