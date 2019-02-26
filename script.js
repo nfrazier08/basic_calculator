@@ -59,6 +59,21 @@ document.addEventListener('DOMContentLoaded', function(){
                 //Use Array.from(), since the keys are not really an array. We are creating an array
                 //The parent here is calculator_keys and all the children are the buttons
 
+            //Create Results String Function
+            const createResultsString = () => {
+                if(!action) {
+                    if (
+                        isplayedNumber === '0' || 
+                        previousKeyType === 'operator' || 
+                        previousKeyType === 'calculate'
+                    ){
+                        return keyTextContent;
+                    } else {
+                        return displayedNumber + keyTextContent;
+                    }
+                }                  
+            }
+           
             //Release selected state
             Array.from(key.parentNode.children)
             .forEach(k => k.classList.remove('selected'));
@@ -174,18 +189,18 @@ document.addEventListener('DOMContentLoaded', function(){
 
             //If the display number is 0, the number pressed needs to replace it            
             //Also if decimal/number is clicked after calc, display should be 0
-            if (!action) {
-                if (displayedNumber === '0' || previousKeyType === 'operator' || previousKeyType === 'calculate'){
-                    console.log('This is a number');  
+            //if (!action) {
+                //if (displayedNumber === '0' || previousKeyType === 'operator' || previousKeyType === 'calculate'){
+                    //console.log('This is a number');  
                    // displayedNumber.textContent = numberPressed;                   
-                   display.textContent = keyTextContent;                   
-                }
+                   //display.textContent = keyTextContent;                   
+                //}
                 //Otherwise, if another number is pressed, it needs to be appended to the display number
-                else {
-                    display.textContent = displayedNumber + keyTextContent;
-                }
-                calculator.dataset.previousKeyType = 'number';
-            } 
+                //else {
+                    //display.textContent = displayedNumber + keyTextContent;
+                //}
+                //calculator.dataset.previousKeyType = 'number';
+            //} 
 
             //AC- all clear- clears everything and resets the calc to initial state
             //CE- clear entry - clears current entry. Keeps previous # in memory
