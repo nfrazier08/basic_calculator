@@ -100,6 +100,12 @@ document.addEventListener('DOMContentLoaded', function(){
             }
 
             const updateCalulatorState = (key, calculator) => {
+                //Variables Needed
+                    //key
+                    //calculator
+                    //calculatedValue
+                    //displayedNumber
+
                 const keyType = getKeyType(key)
                 calculator.dataset.previousKeyType = keyType
 
@@ -110,22 +116,33 @@ document.addEventListener('DOMContentLoaded', function(){
                     key.classList.add("selected"); 
 
                     calculator.dataset.operator = key.dataset.action
-                    calculator.dataset.firstNumber = key.dataset.firstNumber
-                                        
-                    return 
-                        firstNumber && 
+                    calculator.dataset.firstNumber = key.dataset.firstNumber &&
                         operator && 
                         previousKeyType !== 'operator' && 
-                        previousKeyType !== 'calculate'
-                    
-                    ? calculate(firstNumber, operator, displayedNumber)
+                        previousKeyType !== 'calculate'                    
+                    ? calculatedValue
                     : displayedNumber                    
                 }
-            }
 
-                //if (keyType === 'clear') { /* ... */ }
-                //if (keyType === 'calculate')
+                if(action === 'clear'){                                           
+                    if (key.textContent === 'AC'){
+                        calculator.dataset.firstNumber = ''
+                        calculator.dataset.operation = ''
+                        calculator.dataset.modifiedValue = ''
+                        calculator.dataset.previousKeyType = ''
+                    } else {
+                        key.textContent = 'AC';
+                    }
+                }
 
+                if (action !== 'clear'){
+                    const clearButton = calculator.querySelector('[data-action="clear"]') 
+                    clearButton.textContent = 'CE'
+                }
+
+            } //End of updateCalculatorState
+
+                
                 //Release selected state
                 Array.from(key.parentNode.children)
                 .forEach(k => k.classList.remove('selected'));
@@ -221,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     //calculator.dataset.carriedSecondNumber = ''
                     //calculator.dataset.previousKeyType = ''
                 //} else {
-                    //ey.textContent = 'AC';
+                    //key.textContent = 'AC';
                 //}
 
                 //display.textContent = 0;                
