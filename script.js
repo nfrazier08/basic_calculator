@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
-    //console.log("state....")
-
+    
     const calculator = document.querySelector('.calculator');
     const keys = calculator.querySelector('.calculator_keys');   
     const display = calculator.querySelector('.display');  
@@ -18,40 +17,7 @@ document.addEventListener('DOMContentLoaded', function(){
             return firstInput * secondInput
         if(operator === 'divide')
             return firstInput / secondInput        
-    }
-
-    const updateCalculatorState = (key, calculator, calculatedValue, displayedNumber) => {
-        const keyType = getKeyType(key)
-        calculator.dataset.previousKeyType = keyType
-
-        if(keyType === 'operator') {
-            key.classList.add("selected"); 
-
-            calculator.dataset.operator = key.dataset.action
-            calculator.dataset.firstNumber = key.dataset.firstNumber &&
-                operator && 
-                previousKeyType !== 'operator' && 
-                previousKeyType !== 'calculate'                    
-            ? calculatedValue
-            : displayedNumber                    
-        }
-
-        if(action === 'clear'){                                           
-            if (key.textContent === 'AC'){
-                calculator.dataset.firstNumber = ''
-                calculator.dataset.operation = ''
-                calculator.dataset.modifiedValue = ''
-                calculator.dataset.previousKeyType = ''
-            } else {
-                key.textContent = 'AC';
-            }
-        }
-
-        if (action !== 'clear'){
-            const clearButton = calculator.querySelector('[data-action="clear"]') 
-            clearButton.textContent = 'CE'
-        }
-    }
+    } //End of calculate function
 
     const getKeyType = (key) => {
         const {action} = key.dataset
@@ -63,21 +29,23 @@ document.addEventListener('DOMContentLoaded', function(){
             action === 'divide'
         ) return 'operator'
         return action
-    }
+    } //End of getKeyType function
 
     const createResultsString = (key, displayedNumber, state) => {
-        console.log("HOPPPRLJS")
+        //VARIABLES
+        console.log("these are variables")
         const keyType = getKeyType(key)
 
-        const keyTextContent = key.textContent   
-        //const displayedNumber = display.textContent     
-        const previousKeyType = state.previousKeyType
-        const action = key.dataset.action       //      
+        const keyTextContent = key.textContent          
+        //const action = key.dataset.action       // I don't think we need it because we have created the getKeyType function above 
+        const firstNumber = state.firstNumber   
+        const modifiedValue = state.modifiedValue //I believe this gets used below
+        const operator = state.operator
+        const previousKeyType = state.previousKeyType                       
+                
+        
 
-        const firstNumber = state.firstNumber        
-        const operator = state.operator        
-        const modifiedValue = state.modifiedValue
-
+        //IF STATEMENTS
         if(keyType === 'number') {
            return 
                 displayedNumber === '0' || 
@@ -96,11 +64,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
         if(
-            keyType === 'add' ||
-            keyType === 'subtract' ||
-            keyType === 'multiply' ||
-            keyType === 'divide'
-        ){
+            keyType === 'operator'){
             //const firstNumber = calculator.dataset.firstNumber
             //const operator = calculator.dataset.operator
             //const secondNumber = displayedNumber
@@ -121,17 +85,55 @@ document.addEventListener('DOMContentLoaded', function(){
             return 0
 
         if(keyType === 'calculate'){
+            const firstNumber = calculator.dataset.firstNumber
+            const operator = state.operator        
+            const modifiedValue = state.modifiedValue
+
             if (firstNumber){
                 return previousKeyType === 'calculate'
                     ? calculate(firstNumber, operator, modifiedValue)        
                     : calculate(firstNumber, operator, displayedNumber)
+            } else {
+                return displayedNumber
             }
         }
 
         Array.from(key.parentNode.children)
             .forEach(k => k.classList.remove('selected'));
-    }//End of createResultsString
+    } //End of createResultsString
     
+    const updateCalculatorState = (key, calculator, calculatedValue, displayedNumber) => {
+        const keyType = getKeyType(key)
+        calculator.dataset.previousKeyType = keyType
+
+        if(keyType === 'operator') {
+            key.classList.add("selected"); 
+
+            calculator.dataset.operator = key.dataset.action
+            calculator.dataset.firstNumber = key.dataset.firstNumber &&
+                operator && 
+                previousKeyType !== 'operator' && 
+                previousKeyType !== 'calculate'                    
+            ? calculatedValue
+            : displayedNumber                    
+        }
+
+        if(keyType === 'clear'){                                           
+            if (key.textContent === 'AC'){
+                calculator.dataset.firstNumber = ''
+                calculator.dataset.operation = ''
+                calculator.dataset.modifiedValue = ''
+                calculator.dataset.previousKeyType = ''
+            } else {
+                key.textContent = 'AC';
+            }
+        }
+
+        if (keyType !== 'clear'){
+            const clearButton = calculator.querySelector('[data-action="clear"]') 
+            clearButton.textContent = 'CE'
+        }
+    } //End of updateCalculatorState function
     
     keys.addEventListener('click', e => {
         console.log("Is this where we are")
@@ -144,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function(){
             //Impure Stuff
             display.textContent = resultString
             updateCalculatorState(key, calculator, resultString, displayedNumber)        
-    })
+    }) //End of click event
 
 
 });
