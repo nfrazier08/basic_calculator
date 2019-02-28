@@ -41,9 +41,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const firstNumber = state.firstNumber   
         const modifiedValue = state.modifiedValue //I believe this gets used below
         const operator = state.operator
-        const previousKeyType = state.previousKeyType                       
-                
-        
+        const previousKeyType = state.previousKeyType   
 
         //IF STATEMENTS
         if(keyType === 'number') {
@@ -96,17 +94,34 @@ document.addEventListener('DOMContentLoaded', function(){
             } else {
                 return displayedNumber
             }
-        }
-
-        Array.from(key.parentNode.children)
-            .forEach(k => k.classList.remove('selected'));
+        }        
     } //End of createResultsString
     
+    //============================================================
     const updateCalculatorState = (key, calculator, calculatedValue, displayedNumber) => {
         const keyType = getKeyType(key)
         calculator.dataset.previousKeyType = keyType
 
-        if(keyType === 'operator') {
+        //Variables
+        // key
+        // calculator
+        // calculatedValue
+        // displayedNum
+        // modifiedValue
+
+        //Released 'selected' state from all keys
+        Array.from(key.parentNode.children)
+            .forEach(k => k.classList.remove('selected'));
+
+        if (keyType === 'number'){
+          
+        } //number
+
+        if (keyType === 'decimal'){
+
+        } //decimal
+
+        if (keyType === 'operator') {
             key.classList.add("selected"); 
 
             calculator.dataset.operator = key.dataset.action
@@ -116,35 +131,45 @@ document.addEventListener('DOMContentLoaded', function(){
                 previousKeyType !== 'calculate'                    
             ? calculatedValue
             : displayedNumber                    
-        }
+        } //operator
 
-        if(keyType === 'clear'){                                           
+        if (keyType === 'clear'){                                           
             if (key.textContent === 'AC'){
                 calculator.dataset.firstNumber = ''
-                calculator.dataset.operation = ''
+                calculator.dataset.operator = ''
                 calculator.dataset.modifiedValue = ''
                 calculator.dataset.previousKeyType = ''
             } else {
                 key.textContent = 'AC';
             }
-        }
+        } //clear
 
         if (keyType !== 'clear'){
-            const clearButton = calculator.querySelector('[data-action="clear"]') 
+            const clearButton = calculator.querySelector('[data-action=clear]') 
             clearButton.textContent = 'CE'
-        }
+        } //not clear
+
+        if(keyType === 'calculate'){
+            secondNumber = calculator.dataset.modifiedValue = firstNumber && previousKeyType === 'calculate'
+                ? modifiedValue
+                : displayedNumber
+        }          
+        
     } //End of updateCalculatorState function
     
     keys.addEventListener('click', e => {
-        console.log("Is this where we are")
+        //console.log("Is this where we are")
         if (e.target.matches('button')) return
-            const displayedNumber = display.textContent   
+
+
+            const key = e.target
+            const displayedNumber = display.textContent
 
             //Pure Stuff       
-            const resultString = createResultsString(e.target, displayedNumber, calculator.dataset)
+            const resultString = createResultsString(key, displayedNumber, calculator.dataset)
 
-            //Impure Stuff
-            display.textContent = resultString
+            //UpdateState
+            display.textContent = resultString            
             updateCalculatorState(key, calculator, resultString, displayedNumber)        
     }) //End of click event
 
