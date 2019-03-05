@@ -12,6 +12,6 @@
 }
 
 .selected{
-    transition: all 0.07s;
+    
     background-color: green;
 }
