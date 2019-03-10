@@ -2,7 +2,7 @@
     display: inline-grid;
     grid-template-columns: auto auto auto auto;
     margin-top: 50px;
-    margin-left:25px;
+    
 }
 
 .itemEquals {
@@ -11,7 +11,20 @@
     grid-column-start:4;     
 }
 
-.selected{
-    
+.selected{    
     background-color: green;
+}
+
+.display{
+    background-color: rgba(197, 239, 247, 1);
+    font-size: x-large;
+    padding: 2%;
+}
+
+.appTitle{
+    text-align: center;
+}
+
+button{
+    padding: 2rem;
 }

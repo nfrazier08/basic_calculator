@@ -8,35 +8,46 @@
         <!--Bootstrap-->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">        
     </head>
-
     <body>
-        <div class = "container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+                    <h1 class="appTitle">Basic Calculator</h1>
+                </div>
+            </div>            
             <div class="calculator">
-                <div class="row display">0</div>
-                    <div class="row">
-
+                <div class="row"> <!--This is the row for the display-->
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                        <div class="display">0</div>
+                    </div>
+                </div>
+                <div class="row"> <!--This is the row for the calculator button-->
+                    <div class="col-lg-5"></div>
+                    <div class="col-lg">
                         <div class="calculator_keys">
-                            <button data-action="add">+</button>
-                            <button data-action="subtract">-</button>
-                            <button data-action="multiply">&times;</button>
-                            <button data-action="divide">&#247;</button>
-                            <button>7</button>
-                            <button>8</button>
-                            <button>9</button>
-                            <button>4</button>
-                            <button>5</button>
-                            <button>6</button>
-                            <button>1</button>
-                            <button>2</button>
-                            <button>3</button>
-                            <button>0</button>
-                            <button data-action="decimal">.</button>
-                            <button data-action="clear">AC</button>
-                            <button class="itemEquals" data-action="calculate">=</button> 
+                                <button data-action="add">+</button>
+                                <button data-action="subtract">-</button>
+                                <button data-action="multiply">&times;</button>
+                                <button data-action="divide">&#247;</button>
+                                <button>7</button>
+                                <button>8</button>
+                                <button>9</button>
+                                <button>4</button>
+                                <button>5</button>
+                                <button>6</button>
+                                <button>1</button>
+                                <button>2</button>
+                                <button>3</button>
+                                <button>0</button>
+                                <button data-action="decimal">.</button>
+                                <button data-action="clear">AC</button>
+                                <button class="itemEquals" data-action="calculate">=</button> 
                         </div> <!-- End of calculator_keys div-->
                     </div>
-
+                </div>
             </div> <!--End of calculator div-->
-        </div>
+        </div> <!--End of container-->
     </body>
 </html>
